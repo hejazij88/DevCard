@@ -1,6 +1,8 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Application.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Application.Controllers
 {
@@ -18,9 +20,25 @@ namespace Application.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Contact()
         {
             return View();
+            
+        }
+
+        [HttpPost]
+        public IActionResult Contact(ContactModel contact)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.error = "اطلاعات وارد شده صحیح نیست. لطفا دوباره تلاش کنید";
+                return View(contact);
+            }
+
+            contact = new();
+            ViewBag.success = "پیغام شما با موفقیت ارسال شد. باتشکر";
+            return View(contact);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
